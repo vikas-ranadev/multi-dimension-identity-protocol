@@ -1,0 +1,29 @@
+{
+  "name": "mdip",
+  "version": "0.0.1",
+  "description": "Multi Dimension Identity Protocol",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js --exec babel-node ",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "vaibhav verma",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/polyfill": "^7.11.5",
+    "bech32": "^1.1.4",
+    "bip39": "^3.0.2",
+    "bs58check": "^2.1.2",
+    "create-hash": "^1.2.0",
+    "hdkey": "^2.0.1",
+    "ipfs": "^0.50.1",
+    "request": "^2.88.2",
+    "wif": "^2.0.6"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.5",
+    "@babel/node": "^7.10.5",
+    "@babel/preset-env": "^7.11.5",
+    "nodemon": "^2.0.4"
+  }
+}
