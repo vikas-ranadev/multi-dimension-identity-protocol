@@ -1,3 +1,33 @@
 #!/bin/bash
 
-echo '**TODO** Multi Dimension Identity Protocol(MDIP) daemon'
+rl=0
+daemon=0
+cmd='daemon'
+
+echo '**TODO** Multi Dimension Identity Protocol(MDIP)'
+
+if test $rl -eq 1; then
+  file=$(readlink -f "$0")
+else
+  echo 'rl'
+fi
+
+dir=$(dirname "$file")
+
+if test $daemon -eq 1; then
+  if ! type setsid > /dev/null 2>& 1; then
+    (
+      "${dir}/${cmd}" "$@" > /dev/null 2>& 1 &
+      echo "$!"
+    )
+    exit 0
+  fi
+  (
+    setsid "${dir}/${cmd}" "$@" > /dev/null 2>& 1 &
+    echo "$!"
+  )
+  exit 0
+else
+  exec "${dir}/${cmd}" "$@"
+  exit 1
+fi
