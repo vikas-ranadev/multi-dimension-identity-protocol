@@ -4,7 +4,7 @@
   "description": "Multi Dimension Identity Protocol",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js --exec babel-node ",
+    "start": "nodemon lib/mdip.js --exec babel-node ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "vaibhav verma",
@@ -24,6 +24,9 @@
     "@babel/core": "^7.11.5",
     "@babel/node": "^7.10.5",
     "@babel/preset-env": "^7.11.5",
+    "eslint": "^7.9.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
     "nodemon": "^2.0.4"
   }
 }
