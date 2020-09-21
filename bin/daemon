@@ -2,16 +2,28 @@
 
 process.title = 'mdip';
 
-if (process.argv.indexOf('--help') !== -1 || process.argv.indexOf('-h') !== -1) {
+if (
+  process.argv.indexOf('--help') !== -1
+  || process.argv.indexOf('-h') !== -1
+) {
+  // eslint-disable-next-line no-console
   console.error('Manual is WiP');
   process.exit(1);
   throw new Error('[dev] Could not exit.');
 }
 
-if (process.argv.indexOf('--version') !== -1 || process.argv.indexOf('-v') !== -1) {
+if (
+  process.argv.indexOf('--version') !== -1
+  || process.argv.indexOf('-v') !== -1
+) {
   // eslint-disable-next-line global-require
   const pkg = require('../package.json');
+  // eslint-disable-next-line no-console
   console.log(pkg.version);
   process.exit(0);
   throw new Error('[dev] Could not exit.');
 }
+
+const Daemon = require('../lib/node');
+
+Daemon.HTTP.start();
