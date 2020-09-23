@@ -6,18 +6,18 @@
   "scripts": {
     "start": "nodemon lib/mdip.js --exec babel-node ",
     "test": "npm run lint",
-    "lint": "eslint lib/node/*.js"
+    "lint": "eslint lib/*.js"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm test",
-      "pre-push": "npm test"
+      "pre-commit": "npm test"
     }
   },
   "author": "vaibhav verma",
   "license": "ISC",
   "dependencies": {
     "@babel/polyfill": "^7.11.5",
+    "assert": "^2.0.0",
     "bech32": "^1.1.4",
     "bip39": "^3.0.2",
     "bs58check": "^2.1.2",
