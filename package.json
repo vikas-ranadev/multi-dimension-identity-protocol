@@ -4,19 +4,29 @@
   "description": "Multi Dimension Identity Protocol",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js --exec babel-node ",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon lib/mdip.js --exec babel-node ",
+    "test": "npm run lint",
+    "lint": "eslint lib/*.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test"
+    }
   },
   "author": "vaibhav verma",
   "license": "ISC",
   "dependencies": {
     "@babel/polyfill": "^7.11.5",
+    "assert": "^2.0.0",
     "bech32": "^1.1.4",
     "bip39": "^3.0.2",
     "bs58check": "^2.1.2",
     "create-hash": "^1.2.0",
+    "express": "^4.17.1",
     "hdkey": "^2.0.1",
+    "i18n": "^0.13.2",
     "ipfs": "^0.50.1",
+    "properties-reader": "^2.1.1",
     "request": "^2.88.2",
     "wif": "^2.0.6"
   },
@@ -24,6 +34,10 @@
     "@babel/core": "^7.11.5",
     "@babel/node": "^7.10.5",
     "@babel/preset-env": "^7.11.5",
+    "eslint": "^7.9.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "husky": "^4.3.0",
     "nodemon": "^2.0.4"
   }
 }
