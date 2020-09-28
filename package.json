@@ -24,7 +24,9 @@
     "create-hash": "^1.2.0",
     "express": "^4.17.1",
     "hdkey": "^2.0.1",
+    "i18n": "^0.13.2",
     "ipfs": "^0.50.1",
+    "properties-reader": "^2.1.1",
     "request": "^2.88.2",
     "wif": "^2.0.6"
   },
