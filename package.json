@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon lib/mdip.js --exec babel-node ",
     "test": "npm run lint",
-    "lint": "eslint lib/node/*.js",
+    "lint": "eslint lib/*.js",
     "ipfs-api": "node lib/ipfs/ipfs.js",
     "ethDID-api": "node lib/ethDID/ethDID.js"
   },
