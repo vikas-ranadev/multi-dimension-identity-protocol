@@ -4,12 +4,12 @@ rl=0
 daemon=0
 cmd='daemon'
 
-echo '**TODO** Multi Dimension Identity Protocol(MDIP)'
+echo 'Multi Dimension Identity Protocol(MDIP)'
 
 if test $rl -eq 1; then
   file=$(readlink -f "$0")
 else
-  echo 'rl'
+  echo 'default'
 fi
 
 dir=$(dirname "$file")
