@@ -2,7 +2,7 @@
   "name": "mdip",
   "version": "0.0.1",
   "description": "Multi Dimension Identity Protocol",
-  "main": "index.js",
+  "main": "./lib/mdip.js",
   "scripts": {
     "start": "nodemon lib/mdip.js --exec babel-node ",
     "test": "npm run lint",
