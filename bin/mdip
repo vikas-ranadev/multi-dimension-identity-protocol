@@ -8,8 +8,6 @@ echo 'Multi Dimension Identity Protocol(MDIP)'
 
 if test $rl -eq 1; then
   file=$(readlink -f "$0")
-else
-  echo 'default'
 fi
 
 dir=$(dirname "$file")

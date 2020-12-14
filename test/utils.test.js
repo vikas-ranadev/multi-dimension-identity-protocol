@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 require('regenerator-runtime/runtime');
 const HD = require('../lib/wallet/hd');
-const btcDIDUtils = require('../lib/client/utils/btc-did');
+const btcDIDUtils = require('../lib/utils');
 
 const mnemonic = 'grid bag express ten plate bronze canvas trigger crew olive arrive luggage';
 
@@ -12,7 +12,7 @@ describe('BTC DID utils module', () => {
     const blockchain = 'btc';
     const childIndexes = [0, 1];
     const network = 'testnet';
-    const didInputs = await btcDIDUtils.prepareDidInputs(
+    const didInputs = await btcDIDUtils.prepareInputs(
       blockchain,
       masterRoot,
       childIndexes,
