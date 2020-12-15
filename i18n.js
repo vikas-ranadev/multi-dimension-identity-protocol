@@ -7,5 +7,4 @@ const i18n = new I18n({
 });
 
 /** TODO: Find a better work-around to prevent dangling under-score. */
-// eslint-disable-next-line no-underscore-dangle
 module.exports = i18n.__;
