@@ -6,5 +6,4 @@ const i18n = new I18n({
   directory: path.join(__dirname, 'locales'),
 });
 
-/** TODO: Find a better work-around to prevent dangling under-score. */
 module.exports = i18n.__;
