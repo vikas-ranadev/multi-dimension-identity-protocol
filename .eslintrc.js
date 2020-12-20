@@ -11,6 +11,7 @@ module.exports = {
   },
   rules: {
     'no-underscore-dangle': 'off',
+    'no-plusplus': 'off',
   },
   plugins: ['jest'],
 };
