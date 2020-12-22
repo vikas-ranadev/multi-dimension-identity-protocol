@@ -24,7 +24,7 @@ password=<bitcoin-password>
 ### Running MDIP Daemon
 
 ```bash
-git clone -b dev https://gitlab.com/ranadev/multi-dimension-identity-protocol.git
+git clone -b dev https://github.com/KeychainMDIP/multi-dimension-identity-protocol.git
 npm install
 cd multi-dimension-identity-protocol/bin
 ./mdip
