@@ -3,7 +3,7 @@ const HD = require('../lib/wallet/hd');
 const mnemonic = 'grid bag express ten plate bronze canvas trigger crew olive arrive luggage';
 
 describe('HD Wallet', () => {
-  test('Generate a bip39 Mnemonic', () => {
+  it('should generate a bip39 Mnemonic', () => {
     const randombytes = (size) => Buffer.from(
       'fb1Cozb9HoD3SD2B/GuKO2wQAlU3BGbNLpUy101jVww='.slice(0, size),
       'utf8',
@@ -14,21 +14,21 @@ describe('HD Wallet', () => {
     );
   }, 1e4);
 
-  test('Mnemonic is a string', () => {
+  it('mnemonic is a string', () => {
     expect(typeof HD.generateMnemonic()).toBe('string');
   });
 
-  test('Mnemonic length is 12', () => {
+  it('mnemonic length is 12', () => {
     const words = HD.generateMnemonic().split(' ');
     expect(words.length).toEqual(12);
   });
 
-  test('Master seed is a buffer', () => {
+  it('master seed is a buffer', () => {
     const seed = HD.generateSeed(mnemonic);
     expect(Buffer.isBuffer(seed)).toBe(true);
   });
 
-  test('Master root is the expected object', () => {
+  it('master root is the expected object', () => {
     const seed = HD.generateSeed(mnemonic);
     const masterRoot = HD.obtainMasterRoot(seed);
     expect(masterRoot.toJSON()).toEqual({
@@ -39,7 +39,7 @@ describe('HD Wallet', () => {
     });
   });
 
-  test('Derive single dimension ID from master seed', () => {
+  it('should derive single dimension ID from master seed', () => {
     const coinType = 1;
     const derivationPath = `m/44'/${coinType}'/0'/0`;
     const seed = HD.generateSeed(mnemonic);
@@ -59,7 +59,7 @@ describe('HD Wallet', () => {
     });
   });
 
-  test('Derive a Hardened child', () => {
+  it('should derive a Hardened child', () => {
     const coinType = 1;
     const derivationPath = `m/44'/${coinType}'/0'/0`;
     const seed = HD.generateSeed(mnemonic);
@@ -80,7 +80,7 @@ describe('HD Wallet', () => {
     );
   });
 
-  test('Derive a non Hardened child', () => {
+  it('should derive a non Hardened child', () => {
     const coinType = 1;
     const derivationPath = `m/44'/${coinType}'/0/0`;
     const seed = HD.generateSeed(mnemonic);

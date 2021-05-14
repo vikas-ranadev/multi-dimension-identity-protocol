@@ -12,6 +12,7 @@ module.exports = {
   rules: {
     'no-underscore-dangle': 'off',
     'no-plusplus': 'off',
+    indent: ['error', 2],
   },
   plugins: ['jest'],
 };
