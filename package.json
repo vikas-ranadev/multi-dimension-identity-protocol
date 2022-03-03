@@ -4,7 +4,7 @@
   "description": "Multi Dimension Identity Protocol",
   "main": "./lib/mdip.js",
   "scripts": {
-    "start": "nodemon lib/mdip.js --exec babel-node ",
+    "start": "nodemon lib/mdip.js --exec babel-node",
     "dev": "MDIP_ENV=dev nodemon lib/node/http.js",
     "test": "jest --verbose --config ./jest.config.js",
     "lint": "eslint lib/*.js",
@@ -20,6 +20,7 @@
   "license": "ISC",
   "dependencies": {
     "@babel/polyfill": "^7.11.5",
+    "@mdip/ipfs-core": "^0.14.4",
     "ajv": "^7.0.2",
     "assert": "^2.0.0",
     "base58": "^2.0.1",
@@ -45,7 +46,7 @@
     "ipns": "^0.16.0",
     "jsonld": "^3.1.1",
     "jws": "^4.0.0",
-    "libp2p": "^0.34.0",
+    "libp2p": "git+https://github.com/imthe-1/js-libp2p.git#feat/adap-v0",
     "lodash": "^4.17.20",
     "mongoose": "^5.12.7",
     "properties-reader": "^2.1.1",
@@ -55,9 +56,9 @@
     "wif": "^2.0.6"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.5",
-    "@babel/node": "^7.10.5",
-    "@babel/preset-env": "^7.11.5",
+    "@babel/core": "^7.17.5",
+    "@babel/node": "^7.16.8",
+    "@babel/preset-env": "^7.16.11",
     "@types/jest": "^26.0.15",
     "eslint": "^7.9.0",
     "eslint-config-airbnb-base": "^14.2.0",
