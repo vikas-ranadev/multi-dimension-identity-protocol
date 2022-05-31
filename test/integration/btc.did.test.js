@@ -5,8 +5,6 @@ const {
   prepareTransaction,
   getUtxos,
   signTx,
-  // eslint-disable-next-line no-unused-vars
-  broadcast,
   createNewMdipDID,
 } = require('../../lib/client/mdip');
 
