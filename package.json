@@ -49,7 +49,6 @@
     "jws": "^4.0.0",
     "libp2p": "git+https://github.com/imthe-1/js-libp2p.git#feat/adap-v0",
     "lodash": "^4.17.20",
-    "mongoose": "^5.12.7",
     "properties-reader": "^2.1.1",
     "randomstring": "^1.1.5",
     "request": "^2.88.2",
