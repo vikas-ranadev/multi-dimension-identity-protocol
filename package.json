@@ -1,7 +1,7 @@
 {
-  "name": "mdip",
+  "name": "keychain",
   "version": "0.0.1",
-  "description": "Multi Dimension Identity Protocol",
+  "description": "Keychain",
   "main": "./lib/mdip.js",
   "scripts": {
     "start": "nodemon lib/mdip.js --exec babel-node",
