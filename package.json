@@ -1,11 +1,12 @@
 {
-  "name": "mdip",
+  "name": "keychain",
   "version": "0.0.1",
-  "description": "Multi Dimension Identity Protocol",
+  "description": "Keychain",
   "main": "./lib/mdip.js",
   "scripts": {
-    "start": "nodemon lib/mdip.js --exec babel-node ",
-    "test": "jest --verbose",
+    "start": "nodemon lib/mdip.js --exec babel-node",
+    "dev": "MDIP_ENV=dev nodemon lib/node/http.js",
+    "test": "jest --verbose --config ./jest.config.js",
     "lint": "eslint lib/*.js",
     "ipfs-api": "node lib/ipfs/ipfs.js",
     "ethDID-api": "node lib/ethDID/ethDID.js"
@@ -19,6 +20,8 @@
   "license": "ISC",
   "dependencies": {
     "@babel/polyfill": "^7.11.5",
+    "@mdip/ipfs-core": "^0.14.5",
+    "@toruslabs/eccrypto": "^1.1.8",
     "ajv": "^7.0.2",
     "assert": "^2.0.0",
     "base58": "^2.0.1",
@@ -27,10 +30,10 @@
     "bip39": "^3.0.2",
     "bitcoinjs-lib": "^5.2.0",
     "bitcoinjs-message": "^2.1.3",
-    "body-parser": "^1.19.0",
     "bs58": "^4.0.1",
     "bs58check": "^2.1.2",
     "create-hash": "^1.2.0",
+    "cryptico-js": "^1.1.0",
     "ethereumjs-tx": "^2.1.2",
     "ethereumjs-util": "^7.0.7",
     "express": "^4.17.1",
@@ -38,23 +41,24 @@
     "fs": "0.0.1-security",
     "hdkey": "^2.0.1",
     "i18n": "^0.13.2",
-    "ipfs": "^0.50.1",
+    "ipfs": "^0.61.0",
+    "ipfs-core": "git+https://github.com/imthe-1/custom-ipfs-core.git#feat/adap",
     "ipfs-http-client": "^47.0.1",
+    "ipns": "^0.16.0",
     "jsonld": "^3.1.1",
     "jws": "^4.0.0",
+    "libp2p": "git+https://github.com/imthe-1/js-libp2p.git#feat/adap-v0",
     "lodash": "^4.17.20",
     "properties-reader": "^2.1.1",
-    "proxyquire": "^2.1.3",
     "randomstring": "^1.1.5",
     "request": "^2.88.2",
     "web3": "^1.3.0",
-    "wif": "^2.0.6",
-    "xmlhttprequest": "^1.8.0"
+    "wif": "^2.0.6"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.5",
-    "@babel/node": "^7.10.5",
-    "@babel/preset-env": "^7.11.5",
+    "@babel/core": "^7.17.5",
+    "@babel/node": "^7.16.8",
+    "@babel/preset-env": "^7.16.11",
     "@types/jest": "^26.0.15",
     "eslint": "^7.9.0",
     "eslint-config-airbnb-base": "^14.2.0",
@@ -63,6 +67,7 @@
     "husky": "^4.3.0",
     "jest": "^26.6.3",
     "jest-environment-jsdom": "^25.5.0",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "regenerator-runtime": "^0.13.7"
   }
 }
