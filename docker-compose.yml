@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  mdipnode:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - mdipnode:/app
+    ports:
+      - '${PORT}:${PORT}'
+    environment:
+      DEBUG: 'mdip:*'
+      PORT: '${PORT}'
+      EB_ENVIRONMENT: 1
+      mdip_testnet: '${mdip_testnet}'
+      mdip_ethHTTPProvider: '${mdip_ethHTTPProvider}'
+      mdip_ethSenderPrivateKey: '${mdip_ethSenderPrivateKey}'
+      mdip_ethTransferAmount: '${mdip_ethTransferAmount}'
+      mdip_chainID: '${mdip_chainID}'
+      mdip_locale: '${mdip_locale}'
+      deps_url: '${deps_url}'
+      deps_username: '${deps_username}'
+      deps_password: '${deps_password}'
+      btc_url: '${btc_url}'
+      btc_username: '${btc_username}'
+      btc_password: '${btc_password}'
+      eth_httpProvider: '${eth_httpProvider}'
+      omni_testnet: '${omni_testnet}'
+      omni_url: '${omni_url}'
+      omni_username: '${omni_username}'
+      omni_password: '${omni_password}'
+      ipfs_url: '${ipfs_url}'
+volumes:
+    mdipnode: 
+      name: mdipnode
