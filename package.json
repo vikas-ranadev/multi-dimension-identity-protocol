@@ -4,7 +4,8 @@
   "description": "Keychain",
   "main": "./lib/mdip.js",
   "engines": {
-    "node": "16.14.0"
+    "npm": ">=8.5.0",
+    "node": ">=16.14.2"
   },
   "scripts": {
     "start": "node bin/app.js",
