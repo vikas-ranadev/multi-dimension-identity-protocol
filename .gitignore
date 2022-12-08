@@ -19,3 +19,7 @@ coverage
 
 # nyc test coverage
 .nyc_output
+
+# elastic beanstalk files
+.elasticbeanstalk
+.platform

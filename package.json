@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "Keychain",
   "main": "./lib/mdip.js",
+  "engines": {
+    "node": "16.14.0"
+  },
   "scripts": {
     "start": "node bin/app.js",
     "dev": "MDIP_ENV=dev nodemon lib/node/http.js",
