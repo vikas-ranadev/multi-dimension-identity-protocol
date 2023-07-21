@@ -4,5 +4,6 @@
 	"Sender does not have funds.": "Sender does not have funds.",
 	"Error in broadcasting Transaction: Transaction signing is not complete. More signatures awaited.": "Error in broadcasting Transaction: Transaction signing is not complete. More signatures awaited.",
 	"Sender does not have sufficient balance.": "Sender does not have sufficient balance.",
-	"Invalid DID sent.": "Invalid DID sent."
+	"Invalid DID sent.": "Invalid DID sent.",
+	"Invalid parameters": "Invalid parameters"
 }
