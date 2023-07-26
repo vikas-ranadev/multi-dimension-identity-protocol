@@ -13,6 +13,7 @@ services:
     environment:
       DEBUG: 'mdip:*'
       PORT: '${PORT}'
+      DOMAIN: '${DOMAIN}'
       EB_ENVIRONMENT: 1
       mdip_testnet: '${mdip_testnet}'
       mdip_ethHTTPProvider: '${mdip_ethHTTPProvider}'
@@ -32,6 +33,10 @@ services:
       omni_username: '${omni_username}'
       omni_password: '${omni_password}'
       ipfs_url: '${ipfs_url}'
+      p2p_transport_protocol: '${p2p_transport_protocol}'
+      p2p_transport_url: '${p2p_transport_url}'
+      p2p_transport_username: '${p2p_transport_username}'
+      p2p_transport_password: '${p2p_transport_password}'
 volumes:
     mdipnode: 
       name: mdipnode
