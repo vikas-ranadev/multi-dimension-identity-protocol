@@ -26,10 +26,14 @@ describe('BTC DID utils module', () => {
         0: {
           publicKey: 'mk8upnrspWBXjJBV4o1wJ2Qf5KkhHDrz41',
           privateKey: 'cNGTUehQmpH5g1mYkN9tUahuZAkZGza2YnA8MtGffT2f2VarsaNJ',
+          publicKeyHex: null,
+          privateKeyHex: null,
         },
         1: {
           publicKey: 'n35xGo2ALWqkaAmCXrLYPkFgGQGuBumNPH',
           privateKey: 'cQZCK7Xbk3uAmuUuhmm9W6cws8jX7LsioUPguXAMUPyT73htJz34',
+          publicKeyHex: null,
+          privateKeyHex: null,
         },
       },
       data: {
