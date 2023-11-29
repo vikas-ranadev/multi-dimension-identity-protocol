@@ -36,6 +36,7 @@ const utxoKeys = ECPair.fromWIF('L2uPYXe17xSTqbCjZvL2DsyXPCbXspvcu5mHLDYUgzdUbZG
 
 describe('client.preparePayment', () => {
     it('returns null for ETH chain', async () => {
+        // arrange
         const fromAddr = 'mock-from-address';
         const toAddresses = [{ address: 'mock-to-address', amount: 1 }];
         const opts = {
@@ -44,11 +45,15 @@ describe('client.preparePayment', () => {
             utxoData: {},
         };
 
+        // act
         const payment = await client.preparePayment(fromAddr, toAddresses, opts);
+
+        // assert
         expect(payment).toEqual(null);
     });
 
     it('throws an error when the balance is insufficient', async () => {
+        // arrange
         const fromAddr = 'mock-from-address';
         const toAddresses = [{ address: 'mock-to-address', amount: 1 }];
         const opts = {
@@ -61,11 +66,12 @@ describe('client.preparePayment', () => {
             },
         };
 
+        // act and assert
         await expect(client.preparePayment(fromAddr, toAddresses, opts)).rejects.toThrow('Insufficient balance');
     });
 
     it('returns a valid single-input payment', async () => {
-
+        // arrange
         const targetKeys = ECPair.makeRandom();
         const { address: targetAddress } = bitcoin.payments.p2wpkh({ pubkey: targetKeys.publicKey });
         const changeKeys = ECPair.makeRandom();
@@ -85,14 +91,13 @@ describe('client.preparePayment', () => {
             },
         };
 
+        // act
         const psbtHex = await client.preparePayment(changeAddress, toAddresses, opts);
+
+        // assert
         const psbtBase64 = Buffer.from(psbtHex, 'hex').toString('base64');
         const psbt = bitcoin.Psbt.fromBase64(psbtBase64);
-
-        psbt.signInput(0, utxoKeys);
-        psbt.finalizeAllInputs();
-
-        const signedTx = psbt.extractTransaction();
+        const signedTx = psbt.signInput(0, utxoKeys).finalizeAllInputs().extractTransaction();
 
         expect(signedTx.ins.length).toEqual(1);
         expect(signedTx.outs.length).toEqual(2);
@@ -101,7 +106,7 @@ describe('client.preparePayment', () => {
     });
 
     it('throws an error when rawdata is too long', async () => {
-
+        // arrange
         const targetKeys = ECPair.makeRandom();
         const { address: targetAddress } = bitcoin.payments.p2wpkh({ pubkey: targetKeys.publicKey });
         const changeKeys = ECPair.makeRandom();
@@ -109,6 +114,7 @@ describe('client.preparePayment', () => {
 
         const amountToSend = 0.0002;
         const txnFee = 0.0001;
+        const nulldataFee = 0.0002;
         const toAddresses = [{ address: targetAddress, amount: amountToSend }];
 
         const opts = {
@@ -117,11 +123,53 @@ describe('client.preparePayment', () => {
             utxoData: {
                 unspents: [utxo],
                 fee: txnFee,
-                nulldataFee: txnFee,
+                nulldataFee: nulldataFee,
             },
             rawdata: 'X'.repeat(200),
         };
 
+        // act and assert
         await expect(client.preparePayment(changeAddress, toAddresses, opts)).rejects.toThrow('Error: payment information');
+    });
+
+    it('returns a valid payment with rawdata', async () => {
+        // arrange
+        const targetKeys = ECPair.makeRandom();
+        const { address: targetAddress } = bitcoin.payments.p2wpkh({ pubkey: targetKeys.publicKey });
+        const changeKeys = ECPair.makeRandom();
+        const { address: changeAddress } = bitcoin.payments.p2wpkh({ pubkey: changeKeys.publicKey });
+
+        const amountToSend = 0.0002;
+        const txnFee = 0.0001;
+        const nulldataFee = 0.0002;
+        const toAddresses = [{ address: targetAddress, amount: amountToSend }];
+        const mockRawData = 'X'.repeat(72);
+
+        const opts = {
+            blockchain: constants.BTC_BLOCKCHAIN,
+            network: constants.MAINNET,
+            utxoData: {
+                unspents: [utxo],
+                fee: txnFee,
+                nulldataFee: nulldataFee,
+            },
+            rawdata: mockRawData,
+        };
+
+        // act
+        const psbtHex = await client.preparePayment(changeAddress, toAddresses, opts);
+
+        // assert
+        const psbtBase64 = Buffer.from(psbtHex, 'hex').toString('base64');
+        const psbt = bitcoin.Psbt.fromBase64(psbtBase64);
+        const signedTx = psbt.signInput(0, utxoKeys).finalizeAllInputs().extractTransaction();
+
+        expect(signedTx.ins.length).toEqual(1);
+        expect(signedTx.outs.length).toEqual(3);
+        expect(signedTx.outs[0].value).toEqual(toSats(amountToSend));
+        const nulldata = signedTx.outs[1].script.toString();
+        expect(nulldata.slice(3, 7)).toEqual('omni');
+        expect(nulldata.slice(11)).toEqual(mockRawData);
+        expect(signedTx.outs[2].value).toEqual(utxo.satoshis - toSats(amountToSend + nulldataFee));
     });
 });
