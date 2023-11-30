@@ -7,7 +7,7 @@
     "start": "nodemon lib/mdip.js --exec babel-node",
     "dev": "MDIP_ENV=dev nodemon lib/node/http.js",
     "test": "jest --verbose --config ./jest.config.js",
-    "lint": "eslint lib/*.js",
+    "lint": "eslint 'lib/**/*.js'",
     "ipfs-api": "node lib/ipfs/ipfs.js",
     "ethDID-api": "node lib/ethDID/ethDID.js"
   },
