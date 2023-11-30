@@ -35,7 +35,7 @@ const utxo = {
 const utxoKeys = ECPair.fromWIF('L2uPYXe17xSTqbCjZvL2DsyXPCbXspvcu5mHLDYUgzdUbZGSKrSr');
 
 describe('client.preparePayment', () => {
-    it('returns null for ETH chain', async () => {
+    it('returns null for ETH chain', () => {
         // arrange
         const fromAddr = 'mock-from-address';
         const toAddresses = [{ address: 'mock-to-address', amount: 1 }];
@@ -46,7 +46,7 @@ describe('client.preparePayment', () => {
         };
 
         // act
-        const payment = await client.preparePayment(fromAddr, toAddresses, opts);
+        const payment = client.preparePayment(fromAddr, toAddresses, opts);
 
         // assert
         expect(payment).toEqual(null);
@@ -67,7 +67,12 @@ describe('client.preparePayment', () => {
         };
 
         // act and assert
-        await expect(client.preparePayment(fromAddr, toAddresses, opts)).rejects.toThrow('Insufficient balance');
+        try {
+            client.preparePayment(fromAddr, toAddresses, opts);
+            fail('Expected client.preparePayment() to throw an error');
+        } catch (error) {
+            expect(error.message).toEqual('Error: Insufficient balance. required amount: 1.0001, available amount: 0.10000000');
+        }
     });
 
     it('returns a valid single-input payment', async () => {
@@ -92,7 +97,7 @@ describe('client.preparePayment', () => {
         };
 
         // act
-        const psbtHex = await client.preparePayment(changeAddress, toAddresses, opts);
+        const psbtHex = client.preparePayment(changeAddress, toAddresses, opts);
 
         // assert
         const psbtBase64 = Buffer.from(psbtHex, 'hex').toString('base64');
@@ -129,7 +134,12 @@ describe('client.preparePayment', () => {
         };
 
         // act and assert
-        await expect(client.preparePayment(changeAddress, toAddresses, opts)).rejects.toThrow('Error: payment information');
+        try {
+            client.preparePayment(changeAddress, toAddresses, opts);
+            fail('Expected client.preparePayment() to throw an error');
+        } catch (error) {
+            expect(error.message).toEqual('Error: payment information can have at most 144 characters');
+        }
     });
 
     it('returns a valid payment with rawdata', async () => {
@@ -157,7 +167,7 @@ describe('client.preparePayment', () => {
         };
 
         // act
-        const psbtHex = await client.preparePayment(changeAddress, toAddresses, opts);
+        const psbtHex = client.preparePayment(changeAddress, toAddresses, opts);
 
         // assert
         const psbtBase64 = Buffer.from(psbtHex, 'hex').toString('base64');
@@ -199,7 +209,7 @@ describe('client.decodeSignedTx', () => {
             rawdata: mockRawData,
         };
 
-        const psbtHex = await client.preparePayment(changeAddress, toAddresses, opts);
+        const psbtHex = client.preparePayment(changeAddress, toAddresses, opts);
         const psbtBase64 = Buffer.from(psbtHex, 'hex').toString('base64');
         const psbt = bitcoin.Psbt.fromBase64(psbtBase64);
         const signedTx = psbt.signInput(0, utxoKeys).finalizeAllInputs().extractTransaction().toHex();
