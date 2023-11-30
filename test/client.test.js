@@ -219,8 +219,8 @@ describe('client.decodeSignedTx', () => {
 
         // assert
         expect(decoded.ins[0].txid).toEqual(utxo.txid);
-        expect(decoded.outs[0].addresses).toEqual([targetAddress]);
-        expect(decoded.outs[1].addresses).toEqual(undefined);
-        expect(decoded.outs[2].addresses).toEqual([changeAddress]);
+        expect(decoded.outs[0].address).toEqual(targetAddress);
+        expect(decoded.outs[1].address).toEqual(undefined);
+        expect(decoded.outs[2].address).toEqual(changeAddress);
     });
 });
