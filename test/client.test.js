@@ -185,6 +185,41 @@ describe('client.preparePayment', () => {
 });
 
 describe('client.decodeSignedTx', () => {
+
+    it('throws error for ETH chain', () => {
+        // arrange
+        const signedTx = 'mock-signed-tx';
+        const opts = {
+            blockchain: constants.ETH_BLOCKCHAIN,
+            network: constants.TESTNET,
+        };
+
+        // act and assert
+        try {
+            const decoded = client.decodeSignedTx(signedTx, opts);
+            fail('Expected client.decodeSignedTx() to throw an error');
+        } catch (error) {
+            expect(error.message).toEqual('Blockchain not supported');
+        }
+    });
+
+    it('throws error for invalid txn', () => {
+        // arrange
+        const signedTx = 'mock-signed-tx';
+        const opts = {
+            blockchain: constants.OMNI_BLOCKCHAIN,
+            network: constants.TESTNET,
+        };
+
+        // act and assert
+        try {
+            const decoded = client.decodeSignedTx(signedTx, opts);
+            fail('Expected client.decodeSignedTx() to throw an error');
+        } catch (error) {
+            expect(error.message).toEqual('Invalid transaction');
+        }
+    });
+
     it('decodes a valid tx', async () => {
         // arrange
         const targetKeys = ECPair.makeRandom();
