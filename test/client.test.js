@@ -173,3 +173,44 @@ describe('client.preparePayment', () => {
         expect(signedTx.outs[2].value).toEqual(utxo.satoshis - toSats(amountToSend + nulldataFee));
     });
 });
+
+describe('client.decodeSignedTx', () => {
+    it('decodes a valid tx', async () => {
+        // arrange
+        const targetKeys = ECPair.makeRandom();
+        const { address: targetAddress } = bitcoin.payments.p2wpkh({ pubkey: targetKeys.publicKey });
+        const changeKeys = ECPair.makeRandom();
+        const { address: changeAddress } = bitcoin.payments.p2wpkh({ pubkey: changeKeys.publicKey });
+
+        const amountToSend = 0.0002;
+        const txnFee = 0.0001;
+        const nulldataFee = 0.0002;
+        const toAddresses = [{ address: targetAddress, amount: amountToSend }];
+        const mockRawData = 'X'.repeat(72);
+
+        const opts = {
+            blockchain: constants.BTC_BLOCKCHAIN,
+            network: constants.MAINNET,
+            utxoData: {
+                unspents: [utxo],
+                fee: txnFee,
+                nulldataFee: nulldataFee,
+            },
+            rawdata: mockRawData,
+        };
+
+        const psbtHex = await client.preparePayment(changeAddress, toAddresses, opts);
+        const psbtBase64 = Buffer.from(psbtHex, 'hex').toString('base64');
+        const psbt = bitcoin.Psbt.fromBase64(psbtBase64);
+        const signedTx = psbt.signInput(0, utxoKeys).finalizeAllInputs().extractTransaction().toHex();
+
+        // act
+        const decoded = client.decodeSignedTx(signedTx, opts);
+
+        // assert
+        expect(decoded.ins[0].txid).toEqual(utxo.txid);
+        expect(decoded.outs[0].addresses).toEqual([targetAddress]);
+        expect(decoded.outs[1].addresses).toEqual(undefined);
+        expect(decoded.outs[2].addresses).toEqual([changeAddress]);
+    });
+});
