@@ -15,4 +15,3 @@ describe('GET /getuptime', () => {
     expect(response.body.uptime).toBeGreaterThan(0);
   });
 });
-

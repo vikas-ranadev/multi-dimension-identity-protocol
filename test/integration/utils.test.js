@@ -1,10 +1,10 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 require('regenerator-runtime/runtime');
-const HD = require('../lib/wallet/hd');
+const HD = require('../../lib/wallet/hd');
 
-const { prepareInputs } = require('../lib/utils');
-const { txrefToTxid } = require('../lib/utils/tx-ref');
-const { btcClient } = require('../lib/utils/util');
+const { prepareInputs } = require('../../lib/utils');
+const { txrefToTxid } = require('../../lib/utils/tx-ref');
+const { btcClient } = require('../../lib/utils/util');
 
 const mnemonic = 'grid bag express ten plate bronze canvas trigger crew olive arrive luggage';
 
