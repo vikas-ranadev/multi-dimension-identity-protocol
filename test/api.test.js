@@ -1,14 +1,14 @@
 const request = require('supertest');
 const express = require('express');
 const daemonRouter = require('../lib/node/api.routes');
+const util = require('../lib/utils/util');
 
 const app = express();
 app.use('/', daemonRouter);
 
-const util = require('../lib/utils/util');
-
 jest.mock('../lib/utils/util', () => ({
   checkConnections: jest.fn(),
+  btcClient: jest.fn(),
 }));
 
 describe('GET /getuptime', () => {
@@ -49,5 +49,48 @@ describe('GET /serverinfo', () => {
     expect(util.checkConnections).toHaveBeenCalled();
     expect(response.body.error).toEqual(mockError.message);
     expect(response.body.result).toBeNull();
+  });
+});
+
+describe('GET /testmempoolaccept', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('responds with error message when mempool rejects the transaction', async () => {
+    const mockResult = [
+      {
+        txid: 'a1d57555d2fb51f0b22c482c525b3d39702ba80db9f802e3f03cd54030da6167',
+        wtxid: 'a1d57555d2fb51f0b22c482c525b3d39702ba80db9f802e3f03cd54030da6167',
+        allowed: false,
+        'reject-reason': 'missing-inputs',
+      },
+    ];
+
+    util.btcClient.mockResolvedValue({ result: mockResult });
+
+    const response = await request(app).get('/testmempoolaccept').query({ signedTx: 'mock-signed-tx' });
+
+    expect(response.statusCode).toBe(500);
+    expect(response.body.error).toEqual('missing-inputs');
+    expect(response.body.result).toBeNull();
+  });
+
+  it('responds with success message when mempool accepts the transaction', async () => {
+    const mockResult = [
+      {
+        txid: 'a1d57555d2fb51f0b22c482c525b3d39702ba80db9f802e3f03cd54030da6167',
+        wtxid: 'a1d57555d2fb51f0b22c482c525b3d39702ba80db9f802e3f03cd54030da6167',
+        allowed: true,
+      },
+    ];
+
+    util.btcClient.mockResolvedValue({ result: mockResult });
+
+    const response = await request(app).get('/testmempoolaccept').query({ signedTx: 'mock-signed-tx' });
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.error).toBeNull();
+    expect(response.body.result).toEqual(mockResult[0]);
   });
 });
