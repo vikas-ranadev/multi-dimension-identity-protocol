@@ -322,7 +322,7 @@ describe('GET /gettransactionhistory', () => {
     },
   ];
 
-  it('responds with success message', async () => {
+  it('responds with correct balances given a mock txn', async () => {
     util.btcClient.mockImplementation((command, ...otherParams) => {
       if (command === 'getaddresstxids') {
         return Promise.resolve({ result: [mockTxns[0].txid] });
@@ -364,5 +364,55 @@ describe('GET /gettransactionhistory', () => {
     expect(txn.totalInputValue).toEqual(totalIn.toFixed(8));
     expect(txn.totalOutputValue).toEqual(totalOut.toFixed(8));
     expect(txn.fee).toEqual(fee.toFixed(8));
+  });
+
+  it('responds with zero balances given no history', async () => {
+    util.btcClient.mockImplementation((command) => {
+      if (command === 'getaddresstxids') {
+        return Promise.resolve({ result: [] });
+      } if (command === 'getaddressmempool') {
+        return Promise.resolve({ result: [] });
+      } if (command === 'getrawtransaction') {
+        return Promise.resolve({ result: null });
+      } if (command === 'getaddressutxos') {
+        return Promise.resolve({ result: [] });
+      }
+      return Promise.resolve({ result: null });
+    });
+
+    const response = await request(app).get('/gettransactionhistory').query({ address: 'mock-address' });
+
+    const expectedResult = {
+      txns: [],
+      balance: {
+        confirmed: 0,
+        unconfirmed: 0,
+        total: 0,
+      },
+    };
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.error).toBeNull();
+    expect(response.body.result).toEqual(expectedResult);
+  });
+
+  it('responds with error when btcClient fails', async () => {
+    util.btcClient.mockImplementation((command) => {
+      if (command === 'getaddresstxids') {
+        return Promise.resolve({ result: [mockTxns[0]] });
+      } if (command === 'getaddressmempool') {
+        return Promise.resolve({ result: [] });
+      } if (command === 'getrawtransaction') {
+        return Promise.resolve({ result: null });
+      } if (command === 'getaddressutxos') {
+        return Promise.resolve({ result: [] });
+      }
+      return Promise.resolve({ result: null });
+    });
+
+    const response = await request(app).get('/gettransactionhistory').query({ address: 'mock-address' });
+
+    expect(response.statusCode).toBe(500);
+    expect(response.body.result).toBeNull();
   });
 });
