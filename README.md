@@ -23,9 +23,24 @@ password=<bitcoin-password>
 
 ### Running MDIP Daemon
 
+#### Running from source
+
 ```bash
 git clone -b dev https://github.com/KeychainMDIP/multi-dimension-identity-protocol.git
 npm install
 cd multi-dimension-identity-protocol/bin
 ./mdip
+```
+
+#### Running in Docker
+
+```bash
+docker compose up
+```
+
+#### Testing MDIP is running
+
+```bash
+curl http://localhost:7445/getuptime
+curl http://localhost:7445/serverinfo
 ```
