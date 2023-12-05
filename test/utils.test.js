@@ -4,11 +4,11 @@ const HD = require('../lib/wallet/hd');
 
 const { prepareInputs } = require('../lib/utils');
 const { txrefToTxid } = require('../lib/utils/tx-ref');
-const { btcClient, helpers } = require('../lib/utils/util');
+const { helpers } = require('../lib/utils/util');
 
 const mnemonic = 'grid bag express ten plate bronze canvas trigger crew olive arrive luggage';
 
-describe('BTC DID utils module', () => {
+describe('prepareInputs', () => {
   it('should prepare DID inputs for a new DID', async () => {
     const seedBuffer = HD.generateSeed(mnemonic);
     const masterRoot = HD.obtainMasterRoot(seedBuffer);
@@ -44,17 +44,32 @@ describe('BTC DID utils module', () => {
       },
     });
   });
+});
 
+describe('txrefToTxid', () => {
   it('should decode txid from tx-ref', async () => {
     const DID = 'did:mdip:omni-x5d3-cr5q-qqvh-vn5';
     const txRef = DID.split('did:mdip:omni-')[1];
     const network = 'testnet';
     const isOmni = true;
     const finalTxRef = network === 'mainnet' ? `tx1:${txRef}` : `txtest1:${txRef}`;
+
+    const btcClient = async (command) => {
+      if (command === 'getblockhash') {
+        return Promise.resolve({ result: 'mock-block-hash' });
+      }
+      if (command === 'getblock') {
+        const txns = Array.from({ length: 30 }, (_, index) => `txid-${index}`);
+        return Promise.resolve({ result: { tx: txns } });
+      }
+      return Promise.resolve({ result: null });
+    };
+
     const resp = await txrefToTxid(finalTxRef, btcClient, isOmni);
+
     expect(resp).toEqual({
       chain: 'testnet',
-      txid: 'b94154ee3699683f41a29d01b99fb875d289b75a554f9428bfd36c5816bdd178',
+      txid: 'txid-20',
       utxoIndex: 0,
     });
   });
