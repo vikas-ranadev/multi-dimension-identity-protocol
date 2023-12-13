@@ -1,10 +1,7 @@
 const path = require('path');
 const { I18n } = require('i18n');
-const propertiesReader = require('properties-reader');
-
+const props = require('./lib/utils/props');
 const { SUPPORTED_LOCALES, DEFAULT_LOCALE } = require('./lib/utils/constants');
-
-const props = propertiesReader(path.join(`${__dirname}/bin/etc/local.conf`));
 
 let locale = props.get('mdip.locale');
 
